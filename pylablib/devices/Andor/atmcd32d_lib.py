@@ -353,6 +353,9 @@ class AndorSDK2Lib:
         self.EnableKeepCleans=wrapper(lib.EnableKeepCleans)
         #  ctypes.c_uint SetOverlapMode(ctypes.c_int mode)
         self.SetOverlapMode=wrapper(lib.SetOverlapMode)
+
+        #  ctypes.c_uint SetCameraLinkMode(ctypes.c_int mode)
+        self.SetCameraLinkMode=wrapper(lib.SetCameraLinkMode)
         
         #  ctypes.c_uint SetFastKinetics(ctypes.c_int exposedRows, ctypes.c_int seriesLength, ctypes.c_float time, ctypes.c_int mode, ctypes.c_int hbin, ctypes.c_int vbin)
         self.SetFastKinetics=wrapper(lib.SetFastKinetics)
