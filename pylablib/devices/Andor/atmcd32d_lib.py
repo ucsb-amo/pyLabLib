@@ -354,9 +354,6 @@ class AndorSDK2Lib:
         #  ctypes.c_uint SetOverlapMode(ctypes.c_int mode)
         self.SetOverlapMode=wrapper(lib.SetOverlapMode)
 
-        #  ctypes.c_uint SetCameraLinkMode(ctypes.c_int mode)
-        self.SetCameraLinkMode=wrapper(lib.SetCameraLinkMode)
-        
         #  ctypes.c_uint SetFastKinetics(ctypes.c_int exposedRows, ctypes.c_int seriesLength, ctypes.c_float time, ctypes.c_int mode, ctypes.c_int hbin, ctypes.c_int vbin)
         self.SetFastKinetics=wrapper(lib.SetFastKinetics)
         #  ctypes.c_uint SetFastKineticsEx(ctypes.c_int exposedRows, ctypes.c_int seriesLength, ctypes.c_float time, ctypes.c_int mode, ctypes.c_int hbin, ctypes.c_int vbin, ctypes.c_int offset)
@@ -540,7 +537,40 @@ class AndorSDK2Lib:
         #  ctypes.c_uint SetTECEvent(HANDLE driverEvent)
         self.SetTECEvent=wrapper(lib.SetTECEvent)
 
+        '''Stuff added for K experiment'''
+        #  ctypes.c_uint SetCameraLinkMode(ctypes.c_int mode)
+        self.SetCameraLinkMode=wrapper(lib.SetCameraLinkMode)
         
+        # #  ctypes.c_uint SetIsolatedCropMode(ctypes.c_int active, ctypes.c_int cropheight, ctypes.c_int cropwidth, ctypes.c_int vbin, ctypes.c_int hbin)
+        # lib.SetIsolatedCropMode.restype=ctypes.c_uint
+        # lib.SetIsolatedCropMode.argtypes=[ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int]
+        # lib.SetIsolatedCropMode.argnames=["active", "cropheight", "cropwidth", "vbin", "hbin"]
+        self.SetIsolatedCropMode=wrapper(lib.SetIsolatedCropMode)
+        
+        # #  ctypes.c_uint SetIsolatedCropModeType(ctypes.c_int type)
+        # lib.SetIsolatedCropModeType.restype=ctypes.c_uint
+        # lib.SetIsolatedCropModeType.argtypes=[ctypes.c_int]
+        # lib.SetIsolatedCropModeType.argnames=["type"]
+        self.SetIsolatedCropModeType=wrapper(lib.SetIsolatedCropModeType)
+
+        #  ctypes.c_uint SetIsolatedCropModeEx(ctypes.c_int active, ctypes.c_int cropheight, ctypes.c_int cropwidth, ctypes.c_int vbin, ctypes.c_int hbin, ctypes.c_int cropleft, ctypes.c_int cropbottom)
+        # lib.SetIsolatedCropModeEx.restype=ctypes.c_uint
+        # lib.SetIsolatedCropModeEx.argtypes=[ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int]
+        # lib.SetIsolatedCropModeEx.argnames=["active", "cropheight", "cropwidth", "vbin", "hbin", "cropleft", "cropbottom"]
+        self.SetIsolatedCropModeEx=wrapper(lib.SetIsolatedCropModeEx)
+        
+        # #  ctypes.c_uint SetIsolatedCropModeType(ctypes.c_int type)
+        # lib.SetIsolatedCropModeType.restype=ctypes.c_uint
+        # lib.SetIsolatedCropModeType.argtypes=[ctypes.c_int]
+        # lib.SetIsolatedCropModeType.argnames=["type"]
+        self.SetIsolatedCropModeType=wrapper(lib.SetIsolatedCropModeType)
+
+        # #  ctypes.c_uint SetCropMode(ctypes.c_int active, ctypes.c_int cropHeight, ctypes.c_int reserved)
+        # lib.SetCropMode.restype=ctypes.c_uint
+        # lib.SetCropMode.argtypes=[ctypes.c_int, ctypes.c_int, ctypes.c_int]
+        # lib.SetCropMode.argnames=["active", "cropHeight", "reserved"]
+        self.SetCropMode=wrapper(lib.SetCropMode)
+
         self._initialized=True
         
         return
@@ -569,10 +599,7 @@ class AndorSDK2Lib:
         # lib.SetComplexImage.restype=ctypes.c_uint
         # lib.SetComplexImage.argtypes=[ctypes.c_int, ctypes.POINTER(ctypes.c_int)]
         # lib.SetComplexImage.argnames=["numAreas", "areas"]
-        # #  ctypes.c_uint SetCropMode(ctypes.c_int active, ctypes.c_int cropHeight, ctypes.c_int reserved)
-        # lib.SetCropMode.restype=ctypes.c_uint
-        # lib.SetCropMode.argtypes=[ctypes.c_int, ctypes.c_int, ctypes.c_int]
-        # lib.SetCropMode.argnames=["active", "cropHeight", "reserved"]
+
         # #  ctypes.c_uint SetCustomTrackHBin(ctypes.c_int bin)
         # lib.SetCustomTrackHBin.restype=ctypes.c_uint
         # lib.SetCustomTrackHBin.argtypes=[ctypes.c_int]
@@ -581,14 +608,8 @@ class AndorSDK2Lib:
         # lib.SetIsolatedCropMode.restype=ctypes.c_uint
         # lib.SetIsolatedCropMode.argtypes=[ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int]
         # lib.SetIsolatedCropMode.argnames=["active", "cropheight", "cropwidth", "vbin", "hbin"]
-        #  ctypes.c_uint SetIsolatedCropModeEx(ctypes.c_int active, ctypes.c_int cropheight, ctypes.c_int cropwidth, ctypes.c_int vbin, ctypes.c_int hbin, ctypes.c_int cropleft, ctypes.c_int cropbottom)
-        # lib.SetIsolatedCropModeEx.restype=ctypes.c_uint
-        # lib.SetIsolatedCropModeEx.argtypes=[ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int]
-        # lib.SetIsolatedCropModeEx.argnames=["active", "cropheight", "cropwidth", "vbin", "hbin", "cropleft", "cropbottom"]
-        # #  ctypes.c_uint SetIsolatedCropModeType(ctypes.c_int type)
-        # lib.SetIsolatedCropModeType.restype=ctypes.c_uint
-        # lib.SetIsolatedCropModeType.argtypes=[ctypes.c_int]
-        # lib.SetIsolatedCropModeType.argnames=["type"]
+        
+        
         # #  ctypes.c_uint SetMultiTrackHBin(ctypes.c_int bin)
         # lib.SetMultiTrackHBin.restype=ctypes.c_uint
         # lib.SetMultiTrackHBin.argtypes=[ctypes.c_int]
