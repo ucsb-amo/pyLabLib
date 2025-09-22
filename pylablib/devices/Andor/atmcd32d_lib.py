@@ -538,7 +538,10 @@ class AndorSDK2Lib:
         self.SetTECEvent=wrapper(lib.SetTECEvent)
 
         '''Stuff added for K experiment'''
-        #  ctypes.c_uint SetCameraLinkMode(ctypes.c_int mode)
+        # #  ctypes.c_uint SetCameraLinkMode(ctypes.c_int mode)
+        # lib.SetCameraLinkMode.restype=ctypes.c_uint
+        # lib.SetCameraLinkMode.argtypes=[ctypes.c_int]
+        # lib.SetCameraLinkMode.argnames=["mode"]
         self.SetCameraLinkMode=wrapper(lib.SetCameraLinkMode)
         
         # #  ctypes.c_uint SetIsolatedCropMode(ctypes.c_int active, ctypes.c_int cropheight, ctypes.c_int cropwidth, ctypes.c_int vbin, ctypes.c_int hbin)
@@ -587,10 +590,7 @@ class AndorSDK2Lib:
         # lib.SetPhosphorEvent.restype=ctypes.c_uint
         # lib.SetPhosphorEvent.argtypes=[HANDLE]
         # lib.SetPhosphorEvent.argnames=["driverEvent"]
-        # #  ctypes.c_uint SetCameraLinkMode(ctypes.c_int mode)
-        # lib.SetCameraLinkMode.restype=ctypes.c_uint
-        # lib.SetCameraLinkMode.argtypes=[ctypes.c_int]
-        # lib.SetCameraLinkMode.argnames=["mode"]
+
         # #  ctypes.c_uint SetCameraStatusEnable(DWORD Enable)
         # lib.SetCameraStatusEnable.restype=ctypes.c_uint
         # lib.SetCameraStatusEnable.argtypes=[DWORD]
