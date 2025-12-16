@@ -980,7 +980,7 @@ try:
                 return py3.as_str(v)
             if isinstance(v,(tuple,list)):
                 return type(v)([FT232DeviceBackend._as_str(e) for e in v])
-            return s
+            return v
         @staticmethod
         def list_resources(desc=False):
             try:
@@ -991,7 +991,7 @@ try:
         
         
     _backends["ft232"]=FT232DeviceBackend
-except (ImportError,NameError,OSError):
+except (ImportError,NameError,OSError,FileNotFoundError,AttributeError):
     pass
 _backend_errors["ft232"]=_backend_install_message.format(name="pyft232",pkg="pyft232",mod="ft232")
 

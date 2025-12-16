@@ -9,9 +9,10 @@ import contextlib
 import collections
 
 
-library_parameters.library_parameters.update({"devices/only_windows_dlls":True},overwrite=False)
+library_parameters.library_parameters.update({"devices/only_windows_dlls":True,"devices/dlls/show_load_errors":False},overwrite=False)
 _store_loaded_dlls=False
 _loaded_dlls=[]
+_platform="win" if platform.system()=="Windows" else "linux"
 
 def get_os_lib_folder():
     """Get default Windows DLL folder (``System32`` or ``SysWOW64``, depending on Python and Windows bitness)"""
@@ -92,12 +93,12 @@ def _load_dll(path, kind, add_environ_paths=True):
                     added_dirs.append(os.add_dll_directory(p)) # pylint: disable=no-member
                 except OSError:  # missing folder
                     pass
-            return ctypes.cdll.LoadLibrary(path) if kind=="cdecl" else ctypes.windll.LoadLibrary(path)
+            return ctypes.cdll.LoadLibrary(path) if kind=="cdecl" or _platform!="win" else ctypes.windll.LoadLibrary(path)
         finally:
             for d in added_dirs:
                 d.close()
     else:
-        return ctypes.cdll.LoadLibrary(path) if kind=="cdecl" else ctypes.windll.LoadLibrary(path)
+        return ctypes.cdll.LoadLibrary(path) if kind=="cdecl" or _platform!="win" else ctypes.windll.LoadLibrary(path)
 def load_lib(name, locations=("global",), call_conv="cdecl", locally=False, depends=None, depends_required=True, error_message=None, check_order="location", return_location=False):
     """
     Load DLL.
@@ -120,8 +121,8 @@ def load_lib(name, locations=("global",), call_conv="cdecl", locally=False, depe
             (in the latter case, `name` and `location` arguments are ignored, except for generating error message).
         return_location(bool): if ``True``, return a tuple ``(dll, location, folder)`` instead of a single dll.
     """
-    if platform.system()!="Windows" and not library_parameters.library_parameters["devices/only_windows_dlls"]:
-        raise OSError("DLLs are not available on non-Windows platform")
+    if _platform!="win" and library_parameters.library_parameters["devices/only_windows_dlls"]:
+        raise OSError("DLLs are untested and not available on non-Windows platform by default; pylablib.par['devices/only_windows_dlls']=True to override")
     if not isinstance(name,(list,tuple)):
         name=[name]
     if not isinstance(locations,(list,tuple)):
@@ -174,7 +175,9 @@ def load_lib(name, locations=("global",), call_conv="cdecl", locally=False, depe
                     else:
                         raise ValueError("unrecognized call convention: {}".format(call_conv))
                 return (dlls[-1],loc,paths[-1]) if return_location else dlls[-1]
-            except OSError:
+            except OSError as err:
+                if library_parameters.library_parameters["devices/dlls/show_load_errors"]:
+                    print("error importing library '{}' at location '{}': {}".format(n,loc,err))
                 if locally:
                     if old_env_path is None:
                         del os.environ["PATH"]

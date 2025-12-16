@@ -12,7 +12,7 @@ import pathlib
 
 here = path.abspath(path.dirname(__file__))
 
-with open(path.join(here,'README.rst')) as f:
+with open(path.join(here,'README.md')) as f:
     long_description=f.read()
 
 def list_cython_extensions(folder="pylablib"):
@@ -31,10 +31,10 @@ dep_pyside2=['pyside2','shiboken2','pyqtgraph>0.10']
 setup(
     name='pylablib',
     # name='pylablib-lightweight',
-    version='1.4.3',
+    version='1.4.4',
     description='Code for use in lab environment: experiment automation, data acquisition, device communication',
     long_description=long_description,
-    long_description_content_type="text/x-rst",
+    long_description_content_type="text/markdown",
     url='https://github.com/AlexShkarin/pyLabLib',
     author='Alexey Shkarin',
     author_email='pylablib@gmail.com',
@@ -54,6 +54,7 @@ setup(
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
     ],
     project_urls={
     'Documentation': 'https://pylablib.readthedocs.io',

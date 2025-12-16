@@ -278,10 +278,11 @@ class IFileSystemDataLocation(IDataLocation):
     
     A single file name describes a single file in the filesystem.
     """
-    def __init__(self, encoding=None):
+    def __init__(self, encoding=None, transformer=None):
         IDataLocation.__init__(self)
         self.opened_files={}
         self.encoding=encoding
+        self.transformer=transformer
     def get_filesystem_path(self, name=None, path_type="absolute"):
         """
         Get the filesystem path corresponding to a given name.
@@ -300,6 +301,8 @@ class IFileSystemDataLocation(IDataLocation):
     def is_free(self, name=None):
         path=self.get_filesystem_path(name,path_type="absolute")
         return not os.path.exists(path)
+    def _ensure_containing_folder(self):
+        pass
     def _open_file_stream(self, name, mode, data_type):
         name=LocationName.from_object(name)
         name_str=name.to_string()
@@ -310,16 +313,27 @@ class IFileSystemDataLocation(IDataLocation):
             mode=mode+"b"
         elif data_type!="text":
             raise ValueError("unrecognized data type: {0}".format(data_type))
-        f=open(file_path,mode,encoding=self.encoding)
-        self.opened_files[name_str]=f
+        if self.transformer:
+            if mode[0] in "ra":
+                with open(file_path,"rb") as tf:
+                    b=tf.read()
+                b=self.transformer.f2d(b)
+                f=io.BytesIO(b) if data_type=="binary" else io.StringIO(b.decode(self.encoding) if self.encoding else b.decode())
+            else:
+                f=io.BytesIO() if data_type=="binary" else io.StringIO()
+        else:
+            f=open(file_path,mode,encoding=self.encoding)
+        self.opened_files[name_str]=(file_path,mode),f
         return f
     def open(self, name=None, mode="read", data_type="text"):
         mode,data_type=_default_file_modes.get(mode,(mode,data_type))
         if mode=="read":
             s=self._open_file_stream(name,"r",data_type)
         elif mode=="write":
+            self._ensure_containing_folder()
             s=self._open_file_stream(name,"w",data_type)
         elif mode=="append":
+            self._ensure_containing_folder()
             s=self._open_file_stream(name,"a",data_type)
             s.seek(0,2)
         else:
@@ -330,7 +344,15 @@ class IFileSystemDataLocation(IDataLocation):
         name_str=LocationName.from_object(name).to_string()
         if not name_str in self.opened_files:
             raise ValueError("name {0} is not opened".format(self.get_filesystem_path(name,"relative")))
-        self.opened_files.pop(name_str).close()
+        par,f=self.opened_files.pop(name_str)
+        if self.transformer and par[1][0] in "wa":
+            b=f.getvalue()
+            if not par[1].endswith("b"):
+                b=b.encode(self.encoding) if self.encoding else b.encode()
+            b=self.transformer.d2f(b)
+            with open(par[0],"wb") as tf:
+                tf.write(b)
+        f.close()
     def list_opened_files(self):
         return self.opened_files
 
@@ -343,11 +365,12 @@ class SingleFileSystemDataLocation(IFileSystemDataLocation):
     Args:
         file_path (str): The path to the file.
     """
-    def __init__(self, file_path, encoding=None):
-        super().__init__(encoding=encoding)
+    def __init__(self, file_path, encoding=None, transformer=None):
+        super().__init__(encoding=encoding,transformer=transformer)
         self.rel_path=file_path
         self.abs_path=os.path.abspath(file_path)
-        file_utils.retry_ensure_dir(os.path.split(file_path)[0])
+    def _ensure_containing_folder(self):
+        file_utils.retry_ensure_dir(os.path.split(self.abs_path)[0])
     def get_filesystem_path(self, name=None, path_type="absolute"):
         name=LocationName.from_object(name)
         if name.path is None and name.ext is None:
@@ -372,8 +395,8 @@ class PrefixedFileSystemDataLocation(IFileSystemDataLocation):
     
     Multi-level paths translate into nested folders (the top level folder is combined from the `file_path` prefix and the first path entry).
     """
-    def __init__(self, file_path, prefix_template="{0}_{1}", encoding=None):
-        super().__init__(encoding=encoding)
+    def __init__(self, file_path, prefix_template="{0}_{1}", encoding=None, transformer=None):
+        super().__init__(encoding=encoding,transformer=transformer)
         self.rel_path,self.master_name=os.path.split(file_path)
         self.abs_path=os.path.abspath(self.rel_path)
         self.master_prefix, self.master_ext=os.path.splitext(self.master_name)
@@ -382,7 +405,8 @@ class PrefixedFileSystemDataLocation(IFileSystemDataLocation):
         else:
             self.master_ext=self.master_ext[1:]
         self.prefix_template=prefix_template
-        file_utils.retry_ensure_dir(os.path.split(file_path)[0])
+    def _ensure_containing_folder(self):
+        file_utils.retry_ensure_dir(self.abs_path)
     def get_filesystem_path(self, name=None, path_type="absolute"):
         name=LocationName.from_object(name)
         if not path_type in {"absolute", "relative","name"}:
@@ -411,8 +435,8 @@ class FolderFileSystemDataLocation(IFileSystemDataLocation):
     
     Multi-level paths translate into nested subfolders.
     """
-    def __init__(self, folder_path, default_name="content", default_ext="", encoding=None):
-        super().__init__(encoding=encoding)
+    def __init__(self, folder_path, default_name="content", default_ext="", encoding=None, transformer=None):
+        super().__init__(encoding=encoding,transformer=transformer)
         split_path=folder_path.split('|')
         if len(split_path)==2:
             folder_path,default_name=split_path
@@ -424,6 +448,7 @@ class FolderFileSystemDataLocation(IFileSystemDataLocation):
         self.abs_path=os.path.abspath(folder_path)
         self.default_name=default_name
         self.default_ext=default_ext
+    def _ensure_containing_folder(self):
         file_utils.retry_ensure_dir(self.abs_path)
     def get_filesystem_path(self, name=None, path_type="absolute"):
         name=LocationName.from_object(name)
