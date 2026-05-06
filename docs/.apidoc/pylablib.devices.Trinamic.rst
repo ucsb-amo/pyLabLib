@@ -8,16 +8,16 @@ pylablib.devices.Trinamic.base module
 -------------------------------------
 
 .. automodule:: pylablib.devices.Trinamic.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Trinamic
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

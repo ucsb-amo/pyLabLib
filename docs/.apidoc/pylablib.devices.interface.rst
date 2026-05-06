@@ -8,25 +8,25 @@ pylablib.devices.interface.camera module
 ----------------------------------------
 
 .. automodule:: pylablib.devices.interface.camera
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.interface.stage module
 ---------------------------------------
 
 .. automodule:: pylablib.devices.interface.stage
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.interface
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

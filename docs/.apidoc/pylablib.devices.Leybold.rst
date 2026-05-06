@@ -8,16 +8,16 @@ pylablib.devices.Leybold.base module
 ------------------------------------
 
 .. automodule:: pylablib.devices.Leybold.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Leybold
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

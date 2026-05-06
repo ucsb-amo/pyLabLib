@@ -185,7 +185,7 @@ class MightexSSeriesCamera(camera.IBinROICamera, camera.IExposureCamera):
         return self._TAcqTimings(self.get_exposure(),self.get_exposure())
 
     _p_pixel_clock=interface.EnumParameterClass("pixel_clock",{"slow":0,"medium":1,"fast":2})
-    @interface.use_parameters(_return="pixel_clock")
+    @interface.use_parameters(_returns="pixel_clock")
     def get_pixel_clock(self):
         """Get pixel clock speed (``"slow"``, ``"medium"``, or ``"fast"``)"""
         return self._pixel_clock
@@ -197,7 +197,7 @@ class MightexSSeriesCamera(camera.IBinROICamera, camera.IExposureCamera):
         return self.get_pixel_clock()
 
     _p_hblanking=interface.EnumParameterClass("hblanking",{"normal":0,"longer":1,"longest":2})
-    @interface.use_parameters(_return="hblanking")
+    @interface.use_parameters(_returns="hblanking")
     def get_hblanking(self):
         """Get hblanking speed (``"normal"``, ``"longer"``, or ``"longest"``)"""
         return self._hblanking

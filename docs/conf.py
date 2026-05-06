@@ -24,13 +24,13 @@ from unittest import mock
 # -- Project information -----------------------------------------------------
 
 project = 'pylablib'
-copyright = '2025, Alexey Shkarin'
+copyright = '2026, Alexey Shkarin'
 author = 'Alexey Shkarin'
 
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '1.4.4'
+release = '1.4.5'
 
 
 # -- General configuration ---------------------------------------------------

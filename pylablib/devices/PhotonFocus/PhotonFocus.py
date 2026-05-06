@@ -585,7 +585,7 @@ class PhotonFocusSiSoCamera(IPhotonFocusCamera,SiliconSoftwareFrameGrabber):
     def _ensure_pixel_format(self):
         ppbpp=self._get_camera_bitpp()
         if ppbpp is not None:
-            self.setup_camlink_pixel_format(ppbpp,2)
+            self.setup_camlink_pixel_format(ppbpp,2,bit_alignment="right_custom" if ppbpp>8 else "left")
 
 
 

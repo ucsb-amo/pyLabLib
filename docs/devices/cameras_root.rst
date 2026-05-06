@@ -20,6 +20,7 @@ Currently supported cameras:
     Basler
     BitFlow
     DCAM
+    IDS
     IMAQ
     IMAQdx
     PhotonFocus
@@ -27,6 +28,7 @@ Currently supported cameras:
     Picam
     Pvcam
     SiliconSoftware
+    Teledyne
     Thorlabs_TLCamera
     uc480
     Mightex

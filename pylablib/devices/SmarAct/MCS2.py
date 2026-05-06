@@ -254,6 +254,26 @@ class MCS2(stage.IMultiaxisStage):
             return value*1E-9
         raise ValueError("unrecognized axis units: {}".format(u))
     
+    _p_cl_mode=interface.EnumParameterClass("cl_mode",{False:0,"sensor":1,"aux":2})
+    @stage.muxaxis
+    @interface.use_parameters(_returns="cl_mode")
+    def get_cl_mode(self, axis=None):
+        """
+        Get the closed-loop operation mode.
+        
+        Can return ``False`` if it is disabled, ``"sensor"`` if it uses the internal sensor, and ``"aux"`` if it uses an auxiliary input.
+        """
+        return self.get_property("control_loop_input",axis)
+    @stage.muxaxis(mux_argnames=["mode"])
+    @interface.use_parameters(mode="cl_mode")
+    def set_cl_mode(self, mode, axis=None):
+        """
+        Set the closed-loop operation mode.
+        
+        Can return ``False`` if it is disabled, ``"sensor"`` if it uses the internal sensor, and ``"aux"`` if it uses an auxiliary input.
+        """
+        self.set_property("control_loop_input",mode,axis)
+        return self.get_cl_mode(axis)
     @stage.muxaxis
     def get_cl_move_parameters(self, axis=None):
         """

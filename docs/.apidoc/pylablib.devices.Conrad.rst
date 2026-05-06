@@ -8,16 +8,16 @@ pylablib.devices.Conrad.base module
 -----------------------------------
 
 .. automodule:: pylablib.devices.Conrad.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Conrad
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

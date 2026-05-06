@@ -37,10 +37,10 @@ def convolve1d(trace, kernel, mode="reflect", cval=0.):
         cval=complex(cval)
         res=ndimage.convolve1d(trace.real,kernel,mode=mode,cval=cval.real)+1j*ndimage.convolve1d(trace.imag,kernel,mode=mode,cval=cval.imag)
     elif kernel_complex:
-        trace=trace.astype(np.find_common_type([trace.dtype,float],[]))
+        trace=trace.astype(np.result_type(trace.dtype,float))
         res=ndimage.convolve1d(trace,kernel.real,mode=mode,cval=cval)+1j*ndimage.convolve1d(trace,kernel.imag,mode=mode,cval=cval)
     else:
-        trace=trace.astype(np.find_common_type([trace.dtype,kernel.dtype],[]))
+        trace=trace.astype(np.result_type(trace.dtype,kernel.dtype))
         res=ndimage.convolve1d(trace,kernel,mode=mode,cval=cval)
     return wrapped.array_replaced(res,preserve_index=True)
         

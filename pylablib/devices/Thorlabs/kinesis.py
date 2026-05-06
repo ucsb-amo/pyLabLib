@@ -96,6 +96,11 @@ class BasicKinesisDevice(comm_backend.ICommBackendWrapper):
         If ``filter_ids==True``, only leave devices with Thorlabs-like IDs (8-digit numbers).
         Otherwise, show all devices (some of them might not be Thorlabs-related).
         """
+        try:
+            ids=comm_backend.list_backend_resources("ft232",desc=True)
+        except ValueError:
+            warnings.warn("ft232 backend is not available; listing all serial devices instead, some of which can be Thorlabs")
+            return comm_backend.list_backend_resources("serial")
         def _is_thorlabs_id(did):
             return re.match(r"^\d{8,}$",did[0]) is not None
         ids=comm_backend.FT232DeviceBackend.list_resources(desc=True)
@@ -387,7 +392,7 @@ class KinesisDevice(IMultiaxisStage,BasicKinesisDevice):
         If ``sync==True``, wait until homing is done (with the given timeout).
         If ``force==False``, only home if the device isn't homed already.
         """
-        if self._is_homed() and not force:
+        if self._is_homed(channel=channel) and not force:
             return
         self.send_comm(0x0443,self._make_channel(channel),dest=("channel",channel))
         if sync:
@@ -1206,7 +1211,7 @@ class KinesisMotor(KinesisDevice):
             self._add_settings_variable("limit_switch_parameters",self.get_limit_switch_parameters,self.setup_limit_switch)
         else:
             self._add_settings_variable("polctl_parameter",self.get_polctl_parameters,self.setup_polctl)
-        if self._model in ["KDC101","KST101","KBD101"]:
+        if self._model in ["KDC101","KST101","KST201","KBD101"]:
             if self._model!="KST101":
                 self._add_settings_variable("kcube_trigio_parameters",self.get_kcube_trigio_parameters,self.setup_kcube_trigio)
             self._add_settings_variable("kcube_trigpos_parameters",self.get_kcube_trigpos_parameters,self.setup_kcube_trigpos)
@@ -1274,7 +1279,7 @@ class KinesisMotor(KinesisDevice):
                 return 25600/360,"deg"
             if stage=="NR360":
                 return 25600/(360/66),"deg"
-        if self._model in ["TST101","KST101","MST602","K10CR1"] or self._model.startswith("BSC20") or self._model.startswith("SSC20"):
+        if self._model in ["TST101","KST101","KST201","MST602","K10CR1"] or self._model.startswith("BSC20") or self._model.startswith("SSC20"):
             if stage.startswith("ZST"):
                 return 2008645.63E3,"m"
             if stage.startswith("ZFS"):
@@ -1312,7 +1317,7 @@ class KinesisMotor(KinesisDevice):
             return (ssc,ssc*time_conv*2**16,ssc*time_conv**2*2**16),units
         if self._model in ["TST001","MST601"] or self._model.startswith("BSC00") or self._model.startswith("BSC10") or self._model.startswith("MPC"):
             return (ssc,ssc,ssc),units
-        if self._model in ["TST101","KST101","MST602","K10CR1"] or self._model.startswith("BSC20"):
+        if self._model in ["TST101","KST101","KST201","MST602","K10CR1"] or self._model.startswith("BSC20"):
             vpr=53.68
             avr=204.94E-6
             return (ssc,ssc*vpr,ssc*vpr*avr),units
@@ -1614,3 +1619,118 @@ class KinesisQuadDetector(BasicKinesisDevice):
         data=struct.pack("<hhhhHHhh",xmin,ymin,xmax,ymax,route,open_loop_out,xgain,ygain)
         self._quad_set(0x05,data)
         return self.get_output_parameters()
+
+
+
+
+
+TLaserDiodeDriverOutputParams=collections.namedtuple("TLaserDiodeDriverOutputParams",["power","current","voltage"])
+TLDLaserDiodeDriverStatus=collections.namedtuple("TLDLaserDiodeDriverStatus",["laser_current","photo_current","laser_voltage",
+    "output","keyswitch","ctl_mode","interlock","tia_range","polarity","sma_enabled","open_circuit","psu_ok","tia_overlimit","tia_underlimit",
+    "sgen_on","di1","di2","error","stable"])
+class KinesisLaserDiodeDriver(BasicKinesisDevice):
+    """
+    Kinesis laser diode driver: KLD101, TLD001.
+
+    Implements FTDI chip connectivity via pyft232 (virtual serial interface).
+
+    Args:
+        conn(str): serial connection parameters (usually an 8-digit device serial number).
+    """
+    def __init__(self, conn, timeout=3.):
+        super().__init__(conn,timeout=timeout)
+        with self._close_on_error():
+            self.send_comm(0x0012) # disable automatic update
+            self.send_comm(0x0005)
+            while self.recv_comm().messageID!=0x0006:
+                pass
+            self._model=self.get_device_info().model_no
+    
+    def _la_req(self, subid):
+        """Perform LA request (applicable to KLD/TLD drivers)"""
+        data=self.query(0x0801,subid).data
+        rsubid,=struct.unpack("<H",data[:2])
+        if rsubid!=subid:
+            raise RuntimeError("unexpected submessage ID in the reply: expected 0x{:02x}, got 0x{:02x}".format(subid,rsubid))
+        return data[2:]
+    def _la_set(self, subid, data):
+        """Perform LA set (applicable to KLD/TLD drivers)"""
+        data=struct.pack("<H",subid)+data
+        self.send_comm_data(0x0800,data)
+
+    _status_bits={"output":0,"keyswitch":1,"ctl_mode":2,"interlock":3,"polarity":8,"sma_enabled":9,"open_circuit":11,"psu_ok":12,"tia_overlimit":13,"tia_underlimit":14,
+                "sgen_on":19,"di1":20,"di2":21,"error":30,"stable":31}
+    def get_complete_status(self):
+        data=self.query(0x0825).data
+        laser_current,photo_current,laser_voltage=struct.unpack("<HHH",data[:6])
+        status_bits=struct.unpack("<I",data[10:14])[0]
+        laser_current=laser_current/32767*100
+        photo_current=photo_current/32767*100
+        laser_voltage=laser_voltage/1000
+        tia_range=0
+        for i in range(4):
+            if status_bits&(1<<(i+4)):
+                tia_range=i+1
+                break
+        status={n:bool(status_bits&(1<<b)) for n,b in self._status_bits.items()}
+        return TLDLaserDiodeDriverStatus(laser_current,photo_current,laser_voltage,tia_range=tia_range,**status)
+    
+    def is_output_enabled(self):
+        """Check if output is enabled"""
+        return self.get_complete_status().output
+    def enable_output(self, enable=True):
+        """Enable or disable laser diode output"""
+        self.send_comm(0x0811 if enable else 0x0812)
+        return self.is_output_enabled()
+
+    def get_laser_power_setpoint(self):
+        """Get current laser power setpoint (in percent)"""
+        data=self._la_req(0x01)
+        return struct.unpack("<H",data)[0]/32767*100
+    def set_laser_power_setpoint(self, setpoint):
+        """Set current laser power setpoint (in percent)"""
+        isetpoint=max(0,min(int(setpoint/100*32767),32767))
+        data=struct.pack("<H",isetpoint)
+        self._la_set(0x01,data)
+        return self.get_laser_power_setpoint()
+    def get_laser_output_parameters(self):
+        """
+        Get current laser power output parameter ``(power, current, voltage)``.
+        
+        ``voltage`` is only applicable to TLD001 units, and will be set to ``None`` otherwise.
+        Power and current are defined in percent of maximum from 0 to 100, except for the current for TLD001 units, which goes from -100 to 100.
+        Voltage is defined in volts from -10 to 10.
+        """
+        if self._model.upper().startswith("TLD"):
+            data=self._la_req(0x04)
+            current,power,voltage=struct.unpack("<HHH",data)
+            return TLaserDiodeDriverOutputParams(current/32767*100,power/32767*100,voltage/1000)
+        else:
+            data=self._la_req(0x04)
+            current,power=struct.unpack("<HH",data)
+            return TLaserDiodeDriverOutputParams(current/32768*100,power/32767*100,None)
+    def setup_laser_output(self, power=None, current=None, voltage=None):
+        """
+        Set current laser power output parameter.
+        
+        ``voltage`` is only applicable to TLD001 units, and will be ignored otherwise.
+        Power and current are defined in percent of maximum from 0 to 100, except for the current for TLD001 units, which goes from -100 to 100.
+        Voltage is defined in volts from -10 to 10.
+        If any parameter is ``None``, use the current value.
+        """
+        current_parameters=self.get_laser_output_parameters()
+        power=current_parameters.power if power is None else power
+        current=current_parameters.current if current is None else current
+        voltage=current_parameters.voltage if voltage is None else voltage
+        if self._model.upper().startswith("TLD"):
+            ipower=max(0,min(int(power/100*32767),32767))
+            icurrent=max(-32768,min(int(current/100*32768),32767))
+            ivoltage=max(-10000,min(int(voltage*1000),10000))
+            data=struct.pack("<HHH",ipower,icurrent,ivoltage)
+            self._la_set(0x04,data)
+        else:
+            ipower=max(0,min(int(power/100*32767),32767))
+            icurrent=max(0,min(int(current/100*32767),32767))
+            data=struct.pack("<HH",ipower,icurrent)
+            self._la_set(0x03,data)
+        return self.get_laser_output_parameters()

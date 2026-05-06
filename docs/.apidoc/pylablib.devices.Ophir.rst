@@ -8,16 +8,16 @@ pylablib.devices.Ophir.base module
 ----------------------------------
 
 .. automodule:: pylablib.devices.Ophir.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Ophir
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

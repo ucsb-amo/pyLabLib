@@ -86,11 +86,11 @@ class KinesisMotorThread(device_thread.DeviceThread):
             self._stop_wait()
             self.device.jog(direction)
             self.update_measurements()
-    def home(self):
+    def home(self, force=False):
         """Home the device"""
         if self.open():
             self._stop_wait()
-            self.device.home()
+            self.device.home(force=force)
             self.update_measurements()
             self.update_parameters()
     def stop_motion(self):

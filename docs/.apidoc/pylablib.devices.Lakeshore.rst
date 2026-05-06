@@ -8,16 +8,16 @@ pylablib.devices.Lakeshore.base module
 --------------------------------------
 
 .. automodule:: pylablib.devices.Lakeshore.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Lakeshore
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

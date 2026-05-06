@@ -9,12 +9,13 @@ except ImportError:
 
 try:
     from importlib import metadata
+    pkg_resources=None
 except ImportError:
     metadata=None
-try:
-    import pkg_resources
-except ImportError:
-    pkg_resources=None
+    try:
+        import pkg_resources  # pylint: disable=deprecated-module
+    except ImportError:
+        pkg_resources=None
 import sys
 import subprocess
 import os

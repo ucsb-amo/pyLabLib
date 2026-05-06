@@ -8,25 +8,25 @@ pylablib.devices.Rigol.base module
 ----------------------------------
 
 .. automodule:: pylablib.devices.Rigol.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.Rigol.power\_supply module
 -------------------------------------------
 
 .. automodule:: pylablib.devices.Rigol.power_supply
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Rigol
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

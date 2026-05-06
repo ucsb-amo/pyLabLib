@@ -8,16 +8,16 @@ pylablib.devices.Lumel.base module
 ----------------------------------
 
 .. automodule:: pylablib.devices.Lumel.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Lumel
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

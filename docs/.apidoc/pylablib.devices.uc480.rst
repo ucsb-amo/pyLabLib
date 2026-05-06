@@ -8,16 +8,16 @@ pylablib.devices.uc480.uc480 module
 -----------------------------------
 
 .. automodule:: pylablib.devices.uc480.uc480
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.uc480
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

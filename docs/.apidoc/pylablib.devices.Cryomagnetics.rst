@@ -8,16 +8,16 @@ pylablib.devices.Cryomagnetics.base module
 ------------------------------------------
 
 .. automodule:: pylablib.devices.Cryomagnetics.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Cryomagnetics
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

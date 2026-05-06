@@ -8,25 +8,25 @@ pylablib.devices.Voltcraft.base module
 --------------------------------------
 
 .. automodule:: pylablib.devices.Voltcraft.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.Voltcraft.multimeter module
 --------------------------------------------
 
 .. automodule:: pylablib.devices.Voltcraft.multimeter
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Voltcraft
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

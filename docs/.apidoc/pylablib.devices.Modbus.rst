@@ -8,16 +8,16 @@ pylablib.devices.Modbus.modbus module
 -------------------------------------
 
 .. automodule:: pylablib.devices.Modbus.modbus
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Modbus
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

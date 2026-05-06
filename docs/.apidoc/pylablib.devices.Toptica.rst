@@ -8,25 +8,25 @@ pylablib.devices.Toptica.base module
 ------------------------------------
 
 .. automodule:: pylablib.devices.Toptica.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.Toptica.ibeam module
 -------------------------------------
 
 .. automodule:: pylablib.devices.Toptica.ibeam
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Toptica
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

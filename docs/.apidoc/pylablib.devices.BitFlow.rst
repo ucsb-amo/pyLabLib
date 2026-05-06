@@ -8,16 +8,16 @@ pylablib.devices.BitFlow.BitFlow module
 ---------------------------------------
 
 .. automodule:: pylablib.devices.BitFlow.BitFlow
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.BitFlow
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

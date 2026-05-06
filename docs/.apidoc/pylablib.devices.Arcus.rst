@@ -8,25 +8,25 @@ pylablib.devices.Arcus.base module
 ----------------------------------
 
 .. automodule:: pylablib.devices.Arcus.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.Arcus.performax module
 ---------------------------------------
 
 .. automodule:: pylablib.devices.Arcus.performax
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Arcus
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

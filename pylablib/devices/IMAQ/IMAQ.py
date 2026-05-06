@@ -57,7 +57,7 @@ class IMAQFrameGrabber(camera.IROICamera):
         self.imaq_name=imaq_name
         self.ifid=None
         self.sid=None
-        self._buffer_mgr=camera.ChunkBufferManager(chunk_size=2**24)
+        self._buffer_mgr=self.ChunkBufferManager(chunk_size=2**24)
         self._max_nbuff=None
         self._start_acq_count=None
         self._last_acq_count=0
@@ -420,6 +420,8 @@ class IMAQFrameGrabber(camera.IROICamera):
         self._last_acq_count=fidx
         return max(fidx-self._start_acq_count,-1)
     def _find_max_nbuff(self):
+        if self._buffer_mgr.legacy_32bit_mode:
+            return 256
         frame_size=self._get_buffer_size()
         buff=ctypes.create_string_buffer(frame_size)
         baddr=ctypes.addressof(buff)
@@ -450,6 +452,31 @@ class IMAQFrameGrabber(camera.IROICamera):
             while not try_size(n):
                 n=int(n*0.99)
         return n
+    class ChunkBufferManager(camera.ChunkBufferManager):
+        """Buffer manager which includes legacy 32bit mode"""
+        def __init__(self, chunk_size=2**26, legacy_32bit_mode=False):
+            super().__init__(chunk_size=chunk_size)
+            self.legacy_32bit_mode=legacy_32bit_mode
+        def allocate(self, nframes, frame_size):
+            if not self.legacy_32bit_mode:
+                return super().allocate(nframes,frame_size)
+            self.deallocate()
+            self.nframes=nframes
+            self.frame_size=frame_size
+            self.chunks=[0]*nframes
+        def set_buffers(self, cbuff):
+            if self.legacy_32bit_mode:
+                self.chunks=[cbuff[i] for i in range(self.nframes)]
+        def get_ctypes_frames_list(self,ctype=ctypes.c_char_p):
+            if not self.legacy_32bit_mode or self.chunks is None:
+                return super().get_ctypes_frames_list(ctype)
+            cbuffs=(ctype*self.nframes)()
+            cbuffs[:]=self.chunks
+            return cbuffs
+        def get_frames_data(self, idx, nframes=1):
+            if not self.legacy_32bit_mode:
+                return super().get_frames_data(idx,nframes=nframes)
+            return [(1,ctypes.cast(self.chunks[(i+idx)%self.nframes],ctypes.c_char_p)) for i in range(nframes)]
         
 
     @interface.use_parameters(mode="acq_mode")
@@ -474,6 +501,7 @@ class IMAQFrameGrabber(camera.IROICamera):
         else:
             skips=(ctypes.c_uint32*len(cbuffs))(0)
             lib.imgSequenceSetup(self.sid,len(cbuffs),cbuffs,skips,0,0)
+        self._buffer_mgr.set_buffers(cbuffs)
         self._start_acq_count=0
         self._last_acq_count=self._start_acq_count
     def clear_acquisition(self):

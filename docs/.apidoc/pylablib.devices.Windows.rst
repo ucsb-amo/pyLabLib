@@ -8,16 +8,16 @@ pylablib.devices.Windows.joystick module
 ----------------------------------------
 
 .. automodule:: pylablib.devices.Windows.joystick
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Windows
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

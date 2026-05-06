@@ -8,16 +8,16 @@ pylablib.devices.DCAM.DCAM module
 ---------------------------------
 
 .. automodule:: pylablib.devices.DCAM.DCAM
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.DCAM
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

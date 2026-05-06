@@ -18,7 +18,7 @@ Module contents
 ---------------
 
 .. automodule:: pylablib.core
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

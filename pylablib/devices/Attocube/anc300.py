@@ -146,12 +146,15 @@ class ANC300(comm_backend.ICommBackendWrapper,stage.IMultiaxisStage):
             self._wait_for_capacitance(axis)
 
     def _parse_string_reply(self, reply, name):
-        patt="^"+name+r"\s*=\s*(.+)\s*$"
+        patt="^"+name+r"\s*=\s*(.+)$"
         m=re.match(patt,reply,re.IGNORECASE)
         if not m:
             raise AttocubeError("unexpected reply: {}".format(reply))
-        return m[1]
+        return m[1].strip()
     def _parse_float_reply(self, reply, name, units):
+        patt_nval="^"+name+r"\s*=\s*\?$"
+        if re.match(patt_nval,reply,re.IGNORECASE):
+            return None
         patt="^"+name+r"\s*=\s*([\d.]+)\s*"+units+"$"
         m=re.match(patt,reply,re.IGNORECASE)
         if not m:
@@ -210,7 +213,8 @@ class ANC300(comm_backend.ICommBackendWrapper,stage.IMultiaxisStage):
         if measure:
             self._wip.measure_capacitance(axis,wait=True)
         reply=self.query("getc {}".format(axis))
-        return self._parse_float_reply(reply,"capacitance","nF")*1E-9
+        cap=self._parse_float_reply(reply,"capacitance","nF")
+        return cap*1E-9 if cap is not None else None
     
     _p_pattern_kind=interface.EnumParameterClass("pattern_kind",["up","down"])
     @interface.use_parameters(kind="pattern_kind")

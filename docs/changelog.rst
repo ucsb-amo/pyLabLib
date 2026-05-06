@@ -23,6 +23,25 @@ you can write
     import pylablib.legacy as pll
     from pylablib.legacy.aux_libs.devices import Lakeshore
 
+1.4.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Devices
+
+    * Added several devices:
+    
+        + Allied Vision VimbaX cameras
+        + IDS peak cameras
+        + Teledyne Spinnaker cameras
+        + PicoTech PicoVNA
+        + American Magnetics 1700 level meter
+        + Pfeiffer TPG 256 pressure gauge controller
+        + Thorlabs KLD101 driver
+
+    * Minor bugfixes in Thorlabs Kinesis (KST201 handling), Attocube ANC 300 (occasional communication errors), IMAQ (older grabber models).
+
+- Updated deprecations
+
 1.4.4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

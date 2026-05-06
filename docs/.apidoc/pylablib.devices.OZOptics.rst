@@ -8,16 +8,16 @@ pylablib.devices.OZOptics.base module
 -------------------------------------
 
 .. automodule:: pylablib.devices.OZOptics.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.OZOptics
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

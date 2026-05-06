@@ -8,16 +8,16 @@ pylablib.devices.PhotonFocus.PhotonFocus module
 -----------------------------------------------
 
 .. automodule:: pylablib.devices.PhotonFocus.PhotonFocus
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.PhotonFocus
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

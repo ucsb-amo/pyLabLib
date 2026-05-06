@@ -31,7 +31,7 @@ dep_pyside2=['pyside2','shiboken2','pyqtgraph>0.10']
 setup(
     name='pylablib',
     # name='pylablib-lightweight',
-    version='1.4.4',
+    version='1.4.5',
     description='Code for use in lab environment: experiment automation, data acquisition, device communication',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -55,6 +55,7 @@ setup(
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
     'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
     ],
     project_urls={
     'Documentation': 'https://pylablib.readthedocs.io',

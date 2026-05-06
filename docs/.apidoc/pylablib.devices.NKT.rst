@@ -8,16 +8,16 @@ pylablib.devices.NKT.interbus module
 ------------------------------------
 
 .. automodule:: pylablib.devices.NKT.interbus
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.NKT
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

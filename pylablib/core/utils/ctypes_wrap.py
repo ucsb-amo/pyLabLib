@@ -479,6 +479,10 @@ class CStructWrapper:
     def tup_struct(cls, struct, *args, **kwargs):  # pylint: disable=unused-argument
         """Convert C structure into a named tuple"""
         return cls(struct).tup()
+    @classmethod
+    def size(cls, *args, **kwargs):  # pylint: disable=unused-argument
+        """Get the size of the wrapped structure"""
+        return ctypes.sizeof(cls._struct)
 
 
 def class_tuple_to_dict(val, norm_strings=True, expand_lists=False):

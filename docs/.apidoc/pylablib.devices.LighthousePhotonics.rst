@@ -8,16 +8,16 @@ pylablib.devices.LighthousePhotonics.base module
 ------------------------------------------------
 
 .. automodule:: pylablib.devices.LighthousePhotonics.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.LighthousePhotonics
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

@@ -25,6 +25,7 @@ Currently supported devices:
     Tektronix
     Keithley
     Rigol
+    PicoTech
     nidaq
     generic_awgs
     AndorShamrock

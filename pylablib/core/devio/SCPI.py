@@ -45,6 +45,7 @@ class SCPIDevice(comm_backend.ICommBackendWrapper):
     _failsafe_warnings=False # whether invocation of failsafe emits a warning
     _allow_concatenate_write=False # allow automatic concatenation of several write operations (see :meth:`using_write_buffer`)
     _concatenate_write_separator=";\n" # separator to join different commands in concatenated write operation (with :meth:`using_write_buffer`)
+    _skip_empty_lines=True # whether empty lines are skipped on reading
     Error=DeviceError
     BackendError=comm_backend.DeviceBackendError
     ReraiseError=None
@@ -88,7 +89,7 @@ class SCPIDevice(comm_backend.ICommBackendWrapper):
         if size is not None:
             data=self.instr.read(size)
         else:
-            data=self.instr.readline(remove_term=not raw)
+            data=self.instr.readline(remove_term=not raw,skip_empty=self._skip_empty_lines)
         return data
     def _instr_write(self, msg):
         return self.instr.write(msg)

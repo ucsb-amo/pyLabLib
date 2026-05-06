@@ -8,16 +8,16 @@ pylablib.devices.Arduino.base module
 ------------------------------------
 
 .. automodule:: pylablib.devices.Arduino.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Arduino
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

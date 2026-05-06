@@ -8,25 +8,34 @@ pylablib.devices.utils.color module
 -----------------------------------
 
 .. automodule:: pylablib.devices.utils.color
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.utils.load\_lib module
 ---------------------------------------
 
 .. automodule:: pylablib.devices.utils.load_lib
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
+
+pylablib.devices.utils.pixel\_format module
+-------------------------------------------
+
+.. automodule:: pylablib.devices.utils.pixel_format
+   :inherited-members:
+   :members:
+   :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.utils
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

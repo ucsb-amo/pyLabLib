@@ -436,6 +436,7 @@ class UC480Camera(camera.IBinROICamera,camera.IExposureCamera):
             self._frame_counter.update_acquired_frames(self._get_acquired_frames(error_on_skip=False))
         return self._TFramesStatus(*self._frame_counter.get_frames_status())
     def get_acquired_frame_status(self):
+        """Get extended frames status, which includes acquired and missed frames and frame skip events"""
         acquired=self._get_acquired_frames(error_on_skip=False)
         cstat=self.lib.is_GetCaptureStatus(self.hcam).adwCapStatusCnt_Detail
         transfer_missed=sum([cstat[i] for i in [0xa2,0xa3,0xb2,0xc7]])

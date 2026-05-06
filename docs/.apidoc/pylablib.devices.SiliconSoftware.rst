@@ -8,16 +8,16 @@ pylablib.devices.SiliconSoftware.fgrab module
 ---------------------------------------------
 
 .. automodule:: pylablib.devices.SiliconSoftware.fgrab
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.SiliconSoftware
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

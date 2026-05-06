@@ -13,7 +13,7 @@ class GenericBonitoCameraThread(camera.GenericCameraThread):
     See :class:`GenericCameraThread`.
     """
     parameter_variables=camera.GenericCameraThread.parameter_variables|{"exposure","frame_period",
-        "status_line","bl_offset","buffer_status","buffer_size","detector_size","roi_limits","roi"}
+        "status_line","bl_offset","buffer_size","detector_size","roi_limits","roi"}
     def _get_metainfo(self, frames, indices, infos):
         metainfo=super()._get_metainfo(frames,indices,infos)
         sline=Bonito.get_status_lines(frames[0][0] if frames[0].ndim==3 else frames[0])

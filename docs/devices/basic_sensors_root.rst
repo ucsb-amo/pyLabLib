@@ -20,6 +20,7 @@ Currently supported sensors:
     Lakeshore
     Cryocon
     Cryomagnetics
+    AmericanMagnetics
     Pfeiffer
     Leybold
     KJL

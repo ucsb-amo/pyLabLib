@@ -21,7 +21,7 @@ def errcheck(passing=None):
     """
     Build an error checking function.
 
-    Return a function which checks return codes of Basler library functions.
+    Return a function which checks return codes of Mightex library functions.
     `passing` is a list specifying which return codes are acceptable (by default only 0, which is success code, is acceptable).
     """
     if passing is None:

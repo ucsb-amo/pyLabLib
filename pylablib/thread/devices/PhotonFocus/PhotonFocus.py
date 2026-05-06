@@ -13,7 +13,7 @@ class GenericPhotonFocusCameraThread(camera.GenericCameraThread):
     See :class:`GenericCameraThread`.
     """
     parameter_variables=camera.GenericCameraThread.parameter_variables|{"exposure","frame_period","cfr","trigger_interleave",
-        "status_line","bl_offset","buffer_status","buffer_size","detector_size","roi_limits","roi"}
+        "status_line","bl_offset","buffer_size","detector_size","roi_limits","roi"}
     def _get_camera_attributes(self):  # pylint: disable=arguments-differ
         return super()._get_camera_attributes(enum_as_str=False)
     def _get_metainfo(self, frames, indices, infos):

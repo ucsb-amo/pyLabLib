@@ -208,7 +208,7 @@ class SharedMemIPCTable:
         if kind=="pickle":
             sval=pickle.dumps(value)
         elif kind.startswith("nps_") or kind.startswith("npa_"):
-            sval=np.asarray(value,kind[4:]).tostring()
+            sval=np.asarray(value,kind[4:]).tobytes()
         vlen=len(sval)
         if desc.fixed_size:
             if vlen!=desc.size:

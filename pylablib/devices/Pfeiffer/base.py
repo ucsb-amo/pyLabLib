@@ -12,31 +12,40 @@ class PfeifferBackendError(PfeifferError,comm_backend.DeviceBackendError):
 
 
 
-TTPG260SwitchSettings=collections.namedtuple("TTPG260SwitchSettings",["channel","low_thresh","high_thresh"])
-TTPG260GaugeControlSettings=collections.namedtuple("TTPG260GaugeControlSettings",["activation_control","deactivation_control","on_thresh","off_thresh"])
-class TPG260(comm_backend.ICommBackendWrapper):
+TTPG2xxSwitchSettings=collections.namedtuple("TTPG2xxSwitchSettings",["channel","low_thresh","high_thresh"])
+TTPG2xxGaugeControlSettings=collections.namedtuple("TTPG2xxGaugeControlSettings",["activation_control","deactivation_control","on_thresh","off_thresh"])
+class TPG2xx(comm_backend.ICommBackendWrapper):
     """
-    TPG260 series (TPG261/262) pressure gauge.
+    TPG2xx series pressure gauge.
 
     Args:
         conn: serial connection parameters (usually port or a tuple containing port and baudrate)
     """
     Error=PfeifferError
+    _nchannels=2
+    _nswitches=4
+    _display_channel_select=True
     def __init__(self, conn):
         instr=comm_backend.new_backend(conn,"serial",term_read="\r\n",term_write="",defaults={"serial":("COM1",9600)},reraise_error=PfeifferBackendError)
         comm_backend.ICommBackendWrapper.__init__(self,instr)
-        gmux=([1,2],)
-        smux=([1,2],1)
+        self._channels=list(range(1,self._nchannels+1))
+        self._add_parameter_class(interface.EnumParameterClass("channel",self._channels))
+        self._switches=list(range(1,self._nswitches+1))
+        gmux=(self._channels,)
+        smux=(self._channels,1)
+        self._add_info_variable("nchannels",self.get_nchannels)
+        self._add_info_variable("nswitches",self.get_nswitches)
         self._add_status_variable("pressure",lambda channel: self.get_pressure(channel,status_error=False),ignore_error=(PfeifferError,),mux=gmux,priority=5)
         self._add_status_variable("channel_status",self.get_channel_status,mux=gmux,priority=5)
         self._add_status_variable("units",self.get_units)
         self._add_status_variable("enabled",self.is_enabled,priority=2)
         self._add_status_variable("switch_status",self.get_switch_status)
         self._add_info_variable("gauge_kind",self.get_gauge_kind,mux=gmux)
-        self._add_settings_variable("display_channel",self.get_display_channel,self.set_display_channel)
+        if self._display_channel_select:
+            self._add_settings_variable("display_channel",self.get_display_channel,self.set_display_channel)
         self._add_settings_variable("measurement_filter",self.get_measurement_filter,self.set_measurement_filter,mux=smux)
         self._add_settings_variable("calibration_factor",self.get_calibration_factor,self.set_calibration_factor,mux=smux,priority=-2)
-        self._add_status_variable("switch_settings",self.get_switch_settings,mux=([1,2,3,4],),priority=-2)
+        self._add_status_variable("switch_settings",self.get_switch_settings,mux=(self._switches,),priority=-2)
         self._add_status_variable("gauge_control_settings",self.get_gauge_control_settings,mux=gmux,priority=-2)
         try:
             self.query("BAU")
@@ -77,7 +86,12 @@ class TPG260(comm_backend.ICommBackendWrapper):
         res=[self._parse_value(v,dt) for (v,dt) in zip(res,data_type)]
         return res[0] if len(res)==1 else res
 
-    _p_channel=interface.EnumParameterClass("channel",[1,2])
+    def get_nchannels(self):
+        """Get number of pressure channels on the device"""
+        return self._nchannels
+    def get_nswitches(self):
+        """Get number of switch channels on the device"""
+        return self._nswitches
     _p_unit=interface.EnumParameterClass("units",{"mbar":0,"torr":1,"pa":2})
     @interface.use_parameters(_returns="units")
     def get_units(self):
@@ -107,10 +121,14 @@ class TPG260(comm_backend.ICommBackendWrapper):
         return value/conv_factor[units]
     def get_display_channel(self):
         """Get controller display channel"""
+        if not self._display_channel_select:
+            raise self.Error("function is not supported by this gauge model")
         return self.query("SCT","int")+1
     @interface.use_parameters
     def set_display_channel(self, channel=1):
         """Set controller display channel"""
+        if not self._display_channel_select:
+            raise self.Error("function is not supported by this gauge model")
         return self.query("SCT,{}".format(channel-1),"int")+1
     def get_display_resolution(self):
         """Get controller display resolution (number of digits)"""
@@ -127,13 +145,14 @@ class TPG260(comm_backend.ICommBackendWrapper):
         
         If the gauge cannot be turned on/off (e.g., not connected), return ``None``.
         """
-        return self.query("SEN",["int","int"])[channel-1]
+        return self.query("SEN",["int"]*self._nchannels)[channel-1]
     @interface.use_parameters(_returns="gauge_enabled")
     def enable(self, enable=True, channel=1):
         """Enable or disable the gauge at the given channel"""
         vals=[0,0]
         vals[channel]=2 if enable else 1
-        return self.query("SEN,{},{}".format(*vals),["int","int"])
+        vals_str=",".join([str(v) for v in vals])
+        return self.query("SEN,{}".format(vals_str),["int"]*self._nchannels)
     _p_gstat=interface.EnumParameterClass("gauge_status",{"ok":0,"under":1,"over":2,"sensor_error":3,"sensor_off":4,"no_sensor":5,"id_error":6})
     @interface.use_parameters(_returns="gauge_status")
     def get_channel_status(self, channel=1):
@@ -162,7 +181,7 @@ class TPG260(comm_backend.ICommBackendWrapper):
         return press
     @interface.use_parameters
     def get_gauge_kind(self, channel=1):
-        return self.query("TID",["str","str"])[channel-1]
+        return self.query("TID",["str"]*self._nchannels)[channel-1]
     _p_filter=interface.EnumParameterClass("meas_filter",{"fast":0,"medium":1,"slow":2})
     @interface.use_parameters(_returns="meas_filter")
     def get_measurement_filter(self, channel=1):
@@ -183,7 +202,8 @@ class TPG260(comm_backend.ICommBackendWrapper):
         """Set gauge calibration factor"""
         curr_coefficient=self.query("CAL","float")
         curr_coefficient[channel-1]=coefficient
-        return self.query("CAL,{},{}".format(*curr_coefficient),"float")[channel-1]
+        coefficient_str=",".join([str(v) for v in curr_coefficient])
+        return self.query("CAL,{}".format(coefficient_str),["float"]*self._nchannels)[channel-1]
     _p_switch_func=interface.RangeParameterClass("switch_function",1,4)
     @interface.use_parameters(_returns=["channel",None,None])
     def get_switch_settings(self, switch_function):
@@ -194,7 +214,7 @@ class TPG260(comm_backend.ICommBackendWrapper):
         """
         ch,lt,ht=self.query("SP{}".format(switch_function),["int","float","float"])
         units=self.get_units()
-        return TTPG260SwitchSettings(ch+1,self.to_Pa(lt,units),self.to_Pa(ht,units))
+        return TTPG2xxSwitchSettings(ch+1,self.to_Pa(lt,units),self.to_Pa(ht,units))
     @interface.use_parameters(_returns=["channel",None,None])
     def setup_switch(self, switch_function, channel, low_thresh, high_thresh):
         """
@@ -206,9 +226,9 @@ class TPG260(comm_backend.ICommBackendWrapper):
         low_thresh=self.from_Pa(low_thresh,units)
         high_thresh=self.from_Pa(high_thresh,units)
         ch,lt,ht=self.query("SP{},{},{},{}".format(switch_function,channel-1,low_thresh,high_thresh),["int","float","float"])
-        return TTPG260SwitchSettings(ch+1,self.to_Pa(lt,units),self.to_Pa(ht,units))
+        return TTPG2xxSwitchSettings(ch+1,self.to_Pa(lt,units),self.to_Pa(ht,units))
     def get_switch_status(self):
-        """Return status of the 4 switch functions"""
+        """Return status of the switch functions"""
         return [bool(v) for v in self.query("SPS","int")]
 
     _p_activation_control=interface.EnumParameterClass("activation_control",{"none":0,"auto":1,"manual":2,"external":3,"hot_start":4})
@@ -222,7 +242,7 @@ class TPG260(comm_backend.ICommBackendWrapper):
         """
         acc,dacc,ont,offt=self.query("SC{}".format(channel),["int","int","float","float"])
         units=self.get_units()
-        return TTPG260GaugeControlSettings(acc,dacc,self.to_Pa(ont,units),self.to_Pa(offt,units))
+        return TTPG2xxGaugeControlSettings(acc,dacc,self.to_Pa(ont,units),self.to_Pa(offt,units))
     @interface.use_parameters(_returns=["activation_control","deactivation_control",None,None])
     def setup_gauge_control(self, channel, activation_control, deactivation_control, on_thresh, off_thresh):
         """
@@ -234,7 +254,7 @@ class TPG260(comm_backend.ICommBackendWrapper):
         on_thresh=self.from_Pa(on_thresh,units)
         off_thresh=self.from_Pa(off_thresh,units)
         acc,dacc,ont,offt=self.query("SC{},{},{},{},{}".format(channel,activation_control,deactivation_control,on_thresh,off_thresh),["int","int","float","float"])
-        return TTPG260GaugeControlSettings(acc,dacc,self.to_Pa(ont,units),self.to_Pa(offt,units))
+        return TTPG2xxGaugeControlSettings(acc,dacc,self.to_Pa(ont,units),self.to_Pa(offt,units))
 
     def _parse_errors(self, errs):
         if not isinstance(errs,list):
@@ -259,6 +279,27 @@ class TPG260(comm_backend.ICommBackendWrapper):
         return self._parse_errors(self.query("RES,1","int"))
 
 
+class TPG260(TPG2xx):
+    """
+    TPG260 series (TPG261/262) pressure gauge.
+
+    Args:
+        conn: serial connection parameters (usually port or a tuple containing port and baudrate)
+    """
+    _nchannels=2
+    _nswitches=4
+    _display_channel_select=True
+
+class TPG256(TPG2xx):
+    """
+    TPG256 pressure gauge.
+
+    Args:
+        conn: serial connection parameters (usually port or a tuple containing port and baudrate)
+    """
+    _nchannels=6
+    _nswitches=6
+    _display_channel_select=False
 
 
 

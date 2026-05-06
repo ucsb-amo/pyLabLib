@@ -4,6 +4,7 @@
 - :ref:`Lakeshore <sensors_lakeshore>`: temperature sensors. Tested with Lakeshore 218 and Lakeshore 235.
 - :ref:`Cryocon <sensors_cryocon>`: temperature sensors. Tested with CryoCon 14C.
 - :ref:`Cryomagnetics <sensors_cryomagnetics>`: liquid nitrogen or helium level sensor. Tested with LM-500 and LM-510 sensors.
+- :ref:`American Magnetics <sensors_americanmagnetics>`: liquid nitrogen or helium level sensor. Tested with Model 1700 sensor.
 - :ref:`Pfeiffer <sensors_pfeiffer>`: pressure gauges. Tested with TPG261 and DPG202 controllers.
 - :ref:`Leybold <sensors_leybold>`: pressure gauges. Tested with ITR90 gauge.
 - :ref:`Kurt J. Lesker <sensors_kjl>`: pressure gauges. Tested with KJL300 gauge.

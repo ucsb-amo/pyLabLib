@@ -8,25 +8,25 @@ pylablib.devices.IMAQ.IMAQ module
 ---------------------------------
 
 .. automodule:: pylablib.devices.IMAQ.IMAQ
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.IMAQ.niimaq\_attrtypes module
 ----------------------------------------------
 
 .. automodule:: pylablib.devices.IMAQ.niimaq_attrtypes
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.IMAQ
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

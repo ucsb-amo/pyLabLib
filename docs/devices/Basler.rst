@@ -45,7 +45,7 @@ The operation of these cameras is relatively standard. They support all the stan
     >> cam.get_attribute_value("StatusInformation/AcqInProgress")  # check if the camera is acquiring
     0
     >> cam.set_attribute_value("Width", 512)  # set the ROI width to 512px
-    >> cam.cav["Width"]  # get the exposure; could also use cam.get_attribute_value("Width")
+    >> cam.cav["Width"]  # get the width; could also use cam.get_attribute_value("Width")
     512
 
 To see all available attributes, you can call :meth:`.BaslerPylonCamera.get_all_attributes` to get a dictionary with attribute objects, and :meth:`.BaslerPylonCamera.get_all_attribute_values` to get the dictionary of attribute values. The attribute objects provide additional information: attribute kind (integer, enum, string, etc.), range (either numerical range, or selection of values for enum attributes), description string, etc.::

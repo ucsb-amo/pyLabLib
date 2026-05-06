@@ -19,7 +19,7 @@ import warnings
 import socket
 
 
-_default_packers={"numpy":np.ndarray.tostring,"pickle":pickle.dumps}
+_default_packers={"numpy":np.ndarray.tobytes,"pickle":pickle.dumps}
 _default_unpackers={"pickle":pickle.loads}
 def _is_tunnel_service(serv):
     return hasattr(serv,"tunnel_socket")
@@ -57,7 +57,7 @@ def obtain(proxy, serv=None, deep=False, direct=False):
             return [obtain(v,serv=serv) for v in proxy]
         if isinstance(proxy,dict):
             return {obtain(k,serv=serv):obtain(v,serv=serv) for k,v in proxy.items()}
-    if isinstance(proxy,np.ndarray) or (t.__name__=="numpy.ndarray" and all([hasattr(proxy,a) for a in ["shape","dtype","tostring","flatten"]])):
+    if isinstance(proxy,np.ndarray) or (t.__name__=="numpy.ndarray" and all([hasattr(proxy,a) for a in ["shape","dtype","tobytes","flatten"]])):
         elsize=np.prod(proxy.shape,dtype="u8")
         bytesize=proxy.dtype.itemsize*elsize
         if bytesize>_numpy_block_size:

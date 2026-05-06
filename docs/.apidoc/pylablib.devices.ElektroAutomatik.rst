@@ -8,16 +8,16 @@ pylablib.devices.ElektroAutomatik.base module
 ---------------------------------------------
 
 .. automodule:: pylablib.devices.ElektroAutomatik.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.ElektroAutomatik
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

@@ -150,4 +150,4 @@ class DataFormat:
             fmt="{:"+ascii_format+"}"
             return ",".join([fmt.format(e) for e in data])
         else:
-            return np.asarray(data).astype(self.to_desc("numpy")).tostring()
+            return np.asarray(data).astype(self.to_desc("numpy")).tobytes()

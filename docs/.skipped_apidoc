@@ -5,6 +5,8 @@
 ..\pylablib\aux_libs.py
 ..\pylablib\core\utils\ctypes_tools.py
 ..\pylablib\core\devio\hid_lib.py
+..\pylablib\devices\AlliedVision\VmbC_defs.py
+..\pylablib\devices\AlliedVision\VmbC_lib.py
 ..\pylablib\devices\Andor\atcore_defs.py
 ..\pylablib\devices\Andor\atcore_lib.py
 ..\pylablib\devices\Andor\atmcd32d_defs.py
@@ -20,6 +22,8 @@
 ..\pylablib\devices\DCAM\dcamprop_defs.py
 ..\pylablib\devices\HighFinesse\wlmData_defs.py
 ..\pylablib\devices\HighFinesse\wlmData_lib.py
+..\pylablib\devices\IDS\peak_backend_defs.py
+..\pylablib\devices\IDS\peak_backend_lib.py
 ..\pylablib\devices\IMAQ\niimaq_defs.py
 ..\pylablib\devices\IMAQ\niimaq_lib.py
 ..\pylablib\devices\IMAQdx\NIIMAQdx_defs.py
@@ -45,14 +49,19 @@
 ..\pylablib\devices\SmarAct\SCU3DControl_lib.py
 ..\pylablib\devices\SmarAct\SmarActControl_defs.py
 ..\pylablib\devices\SmarAct\SmarActControl_lib.py
+..\pylablib\devices\Teledyne\SpinnakerC_defs.py
+..\pylablib\devices\Teledyne\SpinnakerC_lib.py
 ..\pylablib\devices\Thorlabs\tl_camera_sdk_defs.py
 ..\pylablib\devices\Thorlabs\tl_camera_sdk_lib.py
 ..\pylablib\devices\uc480\uc480_defs.py
 ..\pylablib\devices\uc480\uc480_lib.py
 ..\pylablib\devices\Windows\winmm_lib.py
 ..\pylablib\core\dataproc\ctransform.c
+..\pylablib\devices\AlliedVision\utils.c
 ..\pylablib\devices\Andor\utils.c
 ..\pylablib\devices\Basler\utils.c
+..\pylablib\devices\IDS\utils.c
 ..\pylablib\devices\IMAQdx\utils.c
 ..\pylablib\devices\PCO\utils.c
 ..\pylablib\devices\SiliconSoftware\utils.c
+..\pylablib\devices\Teledyne\utils.c

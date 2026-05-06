@@ -8,16 +8,16 @@ pylablib.devices.Tektronix.base module
 --------------------------------------
 
 .. automodule:: pylablib.devices.Tektronix.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Tektronix
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

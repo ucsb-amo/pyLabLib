@@ -8,16 +8,16 @@ pylablib.devices.NI.daq module
 ------------------------------
 
 .. automodule:: pylablib.devices.NI.daq
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.NI
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

@@ -1,1 +1,2 @@
 from .Bonito import IMAQBonitoCameraThread
+from .VimbaX import AlliedVisionVimbaXCameraThread

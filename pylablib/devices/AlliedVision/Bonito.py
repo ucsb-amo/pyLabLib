@@ -2,6 +2,7 @@ from ..IMAQ.IMAQ import IMAQFrameGrabber
 from ..interface import camera
 from ...core.devio import interface
 from ...core.devio.comm_backend import DeviceError
+from .base import AlliedVisionError
 from ...core.utils import funcargparse, py3
 
 import numpy as np
@@ -10,7 +11,7 @@ import re
 
 
 
-class BonitoError(DeviceError):
+class BonitoError(AlliedVisionError):
     """Generic AlliedVision Bonito error"""
 
 

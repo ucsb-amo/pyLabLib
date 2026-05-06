@@ -8,16 +8,16 @@ pylablib.devices.Basler.pylon module
 ------------------------------------
 
 .. automodule:: pylablib.devices.Basler.pylon
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Basler
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

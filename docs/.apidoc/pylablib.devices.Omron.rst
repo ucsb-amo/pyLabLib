@@ -8,16 +8,16 @@ pylablib.devices.Omron.base module
 ----------------------------------
 
 .. automodule:: pylablib.devices.Omron.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Omron
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

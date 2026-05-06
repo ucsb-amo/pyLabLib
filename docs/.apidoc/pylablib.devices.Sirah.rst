@@ -8,34 +8,34 @@ pylablib.devices.Sirah.Matisse module
 -------------------------------------
 
 .. automodule:: pylablib.devices.Sirah.Matisse
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.Sirah.base module
 ----------------------------------
 
 .. automodule:: pylablib.devices.Sirah.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.Sirah.tuner module
 -----------------------------------
 
 .. automodule:: pylablib.devices.Sirah.tuner
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Sirah
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

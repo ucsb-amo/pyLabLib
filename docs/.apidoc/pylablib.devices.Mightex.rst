@@ -8,25 +8,25 @@ pylablib.devices.Mightex.MightexSSeries module
 ----------------------------------------------
 
 .. automodule:: pylablib.devices.Mightex.MightexSSeries
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.Mightex.base module
 ------------------------------------
 
 .. automodule:: pylablib.devices.Mightex.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Mightex
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

@@ -2,9 +2,9 @@ from ... import device_thread
 
 
 
-class TPG260Thread(device_thread.DeviceThread):
+class TPG2xxThread(device_thread.DeviceThread):
     """
-    Pfeiffer TPG260 pressure gauge device thread.
+    Pfeiffer TPG2xx pressure gauge device thread.
 
     Device args:
         - ``conn``: device connection (usually, COM-port address)
@@ -17,16 +17,17 @@ class TPG260Thread(device_thread.DeviceThread):
         - ``parameters``: device parameters: channel status, gauge kind
     """
     full_info_variables={"cls","conn","pressure","channel_status","gauge_kind","enabled"}
+    _gauge_model="TPG2xx"
+    _nchannels=2
     def connect_device(self):
-        with self.using_devclass("Pfeiffer.TPG260",host=self.remote) as cls:
+        with self.using_devclass("Pfeiffer.{}".format(self._gauge_model),host=self.remote) as cls:
             self.device=cls(conn=self.conn)  # pylint: disable=not-callable
-    _all_channels=[1,2]
     def setup_task(self, conn, remote=None, channel=1):  # pylint: disable=arguments-differ
         self.device_reconnect_tries=5
         self.conn=conn
         self.remote=remote
         if channel is None:
-            channel=self._all_channels
+            channel=list(range(1,self._nchannels+1))
         self.multichannel=isinstance(channel,(list,tuple))
         self.channels=list(channel) if self.multichannel else [channel]
         self.add_job("update_measurements",self.update_measurements,2.5)
@@ -53,6 +54,12 @@ class TPG260Thread(device_thread.DeviceThread):
                 self.v["parameters/channel_status",(ch if self.multichannel else "")]="disconnected"
             self.sleep(1.)
 
+class TPG260Thread(TPG2xxThread):
+    _gauge_model="TPG260"
+    _nchannels=2
+class TPG256Thread(TPG2xxThread):
+    _gauge_model="TPG256"
+    _nchannels=6
 
 
 class DPG202Thread(device_thread.DeviceThread):

@@ -8,16 +8,16 @@ pylablib.devices.Cryocon.base module
 ------------------------------------
 
 .. automodule:: pylablib.devices.Cryocon.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Cryocon
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

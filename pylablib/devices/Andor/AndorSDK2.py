@@ -528,7 +528,9 @@ class AndorSDK2Camera(camera.IBinROICamera, camera.IExposureCamera):
         Gain goes up to 300 if ``advanced==False`` or higher if ``advanced==True`` (in this mode the sensor can be permanently damaged by strong light).
         """
         gain=int(gain)
-        if (advanced is not None) and not self._check_option("set",AC_SETFUNC.AC_SETFUNCTION_EMADVANCED): return
+        if advanced and not self._check_option("set",AC_SETFUNC.AC_SETFUNCTION_EMADVANCED): return
+        if not self._has_option("set",AC_SETFUNC.AC_SETFUNCTION_EMADVANCED):
+            advanced=None
         lib.set_EMCCD_gain(gain,advanced)
 
     def init_amp_mode(self, mode=None):

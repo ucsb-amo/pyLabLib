@@ -8,16 +8,16 @@ pylablib.devices.LaserQuantum.base module
 -----------------------------------------
 
 .. automodule:: pylablib.devices.LaserQuantum.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.LaserQuantum
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

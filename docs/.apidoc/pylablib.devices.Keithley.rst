@@ -8,25 +8,25 @@ pylablib.devices.Keithley.base module
 -------------------------------------
 
 .. automodule:: pylablib.devices.Keithley.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.Keithley.multimeter module
 -------------------------------------------
 
 .. automodule:: pylablib.devices.Keithley.multimeter
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Keithley
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

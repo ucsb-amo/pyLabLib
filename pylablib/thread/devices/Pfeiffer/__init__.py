@@ -1,1 +1,1 @@
-from .base import TPG260Thread, DPG202Thread
+from .base import TPG260Thread, TPG256Thread, DPG202Thread

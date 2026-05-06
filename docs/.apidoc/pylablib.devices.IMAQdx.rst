@@ -8,16 +8,16 @@ pylablib.devices.IMAQdx.IMAQdx module
 -------------------------------------
 
 .. automodule:: pylablib.devices.IMAQdx.IMAQdx
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.IMAQdx
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

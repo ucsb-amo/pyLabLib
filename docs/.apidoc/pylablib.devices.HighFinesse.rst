@@ -8,16 +8,16 @@ pylablib.devices.HighFinesse.wlm module
 ---------------------------------------
 
 .. automodule:: pylablib.devices.HighFinesse.wlm
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.HighFinesse
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

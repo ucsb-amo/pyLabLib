@@ -8,25 +8,25 @@ pylablib.devices.Newport.base module
 ------------------------------------
 
 .. automodule:: pylablib.devices.Newport.base
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 pylablib.devices.Newport.picomotor module
 -----------------------------------------
 
 .. automodule:: pylablib.devices.Newport.picomotor
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pylablib.devices.Newport
-   :members:
    :inherited-members:
-   :undoc-members:
+   :members:
    :show-inheritance:
+   :undoc-members:

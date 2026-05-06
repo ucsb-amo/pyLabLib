@@ -441,7 +441,7 @@ class SiliconSoftwareFrameGrabber(camera.IGrabberAttributeCamera,camera.IROICame
     get_grabber_detector_size=get_detector_size
     def get_roi(self):
         w,h=self.gav["WIDTH"],self.gav["HEIGHT"]//self._frame_merge
-        l,t=self.gav["XOFFSET"],self.gav["YOFFSET"]
+        l,t=self.get_grabber_attribute_value("XOFFSET",default=0),self.get_grabber_attribute_value("YOFFSET",default=0)
         return l,l+w,t,t+h
     get_grabber_roi=get_roi
     @camera.acqcleared
@@ -455,20 +455,20 @@ class SiliconSoftwareFrameGrabber(camera.IGrabberAttributeCamera,camera.IROICame
         vstart,vend=self._truncate_roi_axis((vstart,vend),vlim)
         if self._frame_merge!=1 and vstart!=0:
             raise ValueError("frame merging is only supported with full vertical frame size")
-        self.gav["XOFFSET"]=0
+        self.set_grabber_attribute_value("XOFFSET",0,error_on_missing=False)
         self.gav["WIDTH"]=hend-hstart
-        self.gav["XOFFSET"]=hstart
-        self.gav["YOFFSET"]=0
+        self.set_grabber_attribute_value("XOFFSET",hstart,error_on_missing=False)
+        self.set_grabber_attribute_value("YOFFSET",0,error_on_missing=False)
         self.gav["HEIGHT"]=(vend-vstart)*self._frame_merge
-        self.gav["YOFFSET"]=vstart  # non-zero only if self._frame_merge==1
+        self.set_grabber_attribute_value("YOFFSET",vstart,error_on_missing=False)  # non-zero only if self._frame_merge==1
         return self.get_grabber_roi()
     set_grabber_roi=set_roi
     def get_roi_limits(self, hbin=1, vbin=1):
         w,h=self.get_grabber_attribute("WIDTH"),self.get_grabber_attribute("HEIGHT")
-        x,y=self.get_grabber_attribute("XOFFSET"),self.get_grabber_attribute("YOFFSET")
+        x,y=self.get_grabber_attribute("XOFFSET",error_on_missing=False),self.get_grabber_attribute("YOFFSET",error_on_missing=False)
         detsize=self.get_detector_size()
-        hlim=camera.TAxisROILimit(w.min,detsize[1],x.inc,w.inc,1)
-        vlim=camera.TAxisROILimit(h.min,detsize[0],y.inc,h.inc,1)
+        hlim=camera.TAxisROILimit(w.min,detsize[1],(x.inc if x is not None else w.min),w.inc,1)
+        vlim=camera.TAxisROILimit(h.min,detsize[0],(y.inc if y is not None else h.min),h.inc,1)
         return hlim,vlim
     get_grabber_roi_limits=get_roi_limits
 
@@ -708,7 +708,14 @@ class SiliconSoftwareFrameGrabber(camera.IGrabberAttributeCamera,camera.IROICame
         return self._acq_in_progress
     
     def _get_buffer_bpp(self):
-        bpp=self.gav["PIXELDEPTH"]
+        bpp=self.get_grabber_attribute_value("PIXELDEPTH",error_on_missing=False)
+        if bpp is None:
+            fmt=self.gav[self._camlink_camtype_attr]
+            m=re.match(r".*_(\d+)_BIT$",fmt)
+            if m:
+                bpp=int(m[1])
+            else:
+                raise SiliconSoftwareError("can not determine camera pixel depth from format {}".format(fmt))
         return (bpp-1)//8+1
     def _get_buffer_dtype(self):
         return "<u{}".format(self._get_buffer_bpp())

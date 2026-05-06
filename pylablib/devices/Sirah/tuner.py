@@ -798,10 +798,10 @@ class MatisseTuner:
         """
         funcargparse.check_parameter_range(kind,"kind",["cont_up","cont_down","single_up","single_down"])
         funcargparse.check_parameter_range(device,"device",["slow_piezo","ref_cell"])
-        span=self._to_int_units(span,device)
+        span=abs(self._to_int_units(span,device))
         max_speed,tune_rng,_=self._get_fine_tune_params(device)
-        up_speed=min(self._to_int_units(abs(up_speed),device),max_speed)
-        down_speed=up_speed if down_speed is None else min(self._to_int_units(abs(down_speed),device),max_speed)
+        up_speed=min(abs(self._to_int_units(up_speed,device)),max_speed)
+        down_speed=up_speed if down_speed is None else min(abs(self._to_int_units(down_speed,device)),max_speed)
         self._setup_fine_tune_lock(device)
         p=self._get_fine_position(device)
         self._fine_scan_start=device,p
