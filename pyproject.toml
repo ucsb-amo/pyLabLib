@@ -1,0 +1,56 @@
+[project]
+name = "pylablib"
+version = "1.4.4"
+description = "Code for use in lab environment: experiment automation, data acquisition, device communication"
+authors = [
+    {name = "jpagett", email = "pagett.jared@gmail.com"},
+    {name = "Alexey Shkarin", email = "pylablib@gmail.com"},
+]
+dependencies = [
+    "numba",
+    "numpy",
+    "pandas",
+    "pyft232",
+    "pyqt5>=5.9",
+    "pyqtgraph",
+    "pyserial",
+    "pyusb",
+    "pyvisa>=1.6",
+    "rpyc",
+    "scipy",
+]
+requires-python = "==3.13.*"
+readme = "README.md"
+license = {text = "GPLv3"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Scientific/Engineering",
+]
+
+
+[project.urls]
+Homepage = "https://github.com/AlexShkarin/pyLabLib"
+Documentation = "https://pylablib.readthedocs.io"
+Source = "https://github.com/AlexShkarin/pyLabLib/"
+Tracker = "https://github.com/AlexShkarin/pyLabLib/issues"
+
+[project.optional-dependencies]
+devio-full = [
+    "nidaqmx",
+    "websocket-client",
+]
+[tool.pdm]
+distribution = false
